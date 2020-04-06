@@ -15,7 +15,6 @@ const CENTER = [LOCATION.lat, LOCATION.lng];
 const DEFAULT_ZOOM = 2;
 
 const IndexPage = () => {
-
   /**
    * mapEffect
    * @description Fires a callback once the page renders
@@ -26,53 +25,51 @@ const IndexPage = () => {
     let response;
 
     try {
-      response = await axios.get('https://corona.lmao.ninja/countries');
-    } catch(e) {
-      console.log('Failed to fetch countries: ${e.message}', e);
+      response = await axios.get( 'https://corona.lmao.ninja/countries' );
+    } catch ( e ) {
+      console.log( 'Failed to fetch countries: ${e.message}', e );
       return;
     }
 
-  const { data = [] } = response; 
-  const hasData = Array.isArray(data) && data.length > 0;
+    const { data = [] } = response;
+    const hasData = Array.isArray( data ) && data.length > 0;
 
-  if ( !hasData ) return;
+    if ( !hasData ) return;
 
-  const geoJson = {
-    type: 'FeatureCollection',
-    features: data.map((country = {}) => {
-      const { countryInfo ={} } = country;
-      const { lat, long: lng } = countryInfo;
-      return {
-        type: 'Feature',
-        properties: {
-          ...country, 
-        },
-        geometry: {
-          type: 'Point',
-          coordinates: [ lng, lat]
-        }
-      }
-    })
-  }
+    const geoJson = {
+      type: 'FeatureCollection',
+      features: data.map(( country = {}) => {
+        const { countryInfo = {} } = country;
+        const { lat, long: lng } = countryInfo;
+        return {
+          type: 'Feature',
+          properties: {
+            ...country
+          },
+          geometry: {
+            type: 'Point',
+            coordinates: [lng, lat]
+          }
+        };
+      })
+    };
 
-    const geoJsonLayers = new L.geoJSON(geoJson, {
-      pointToLayer: (feature = {}, latlng) => {
-        const {properties = {} } = feature;
+    const geoJsonLayers = new L.geoJSON( geoJson, {
+      pointToLayer: ( feature = {}, latlng ) => {
+        const { properties = {} } = feature;
         let updatedFormatted;
         let casesString;
 
-        const {
-          country,
-          updated,
-          cases,
-          deaths,
-          recovered
-        } = properties
+        const { country, updated, cases, deaths, recovered } = properties;
 
         casesString = `${cases}`;
 
-        if ( cases > 1000) {
-          casesString = `${casesString.slice(0, -3)}k+`
+        if ( cases > 1000 ) {
+          casesString = `${casesString.slice( 0, -3 )}k+`;
+        }
+
+        if ( updated ) {
+          updatedFormatted = new Date( updated ).toLocaleString();
         }
 
         const html = `
@@ -86,7 +83,9 @@ const IndexPage = () => {
               <li><strong>Last Update:</strong> ${updatedFormatted}</li>
             </ul>
           </span>
-        `;
+          ${casesString}
+        </span>
+      `;
 
         return L.marker( latlng, {
           icon: L.divIcon({
@@ -98,7 +97,7 @@ const IndexPage = () => {
       }
     });
 
-    geoJsonLayers.addTo(map)
+    geoJsonLayers.addTo( map );
   }
 
   const mapSettings = {
@@ -114,7 +113,7 @@ const IndexPage = () => {
         <title>Map Tracker</title>
       </Helmet>
 
-     <Map {...mapSettings} />
+      <Map {...mapSettings} />
 
       <Container type="content" className="text-center home-start">
         <h2>Covid-19 Tracker</h2>

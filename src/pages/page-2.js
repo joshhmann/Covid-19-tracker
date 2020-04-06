@@ -8,11 +8,14 @@ const SecondPage = () => {
   return (
     <Layout pageName="two">
       <Helmet>
-        <title>Page Two</title>
+        <title>About Me</title>
       </Helmet>
       <Container type="content" className="text-center">
-        <h1>Page Two</h1>
-        <p>Welcome to page 2</p>
+        <h1>About Me</h1>
+        <header>Joshua Anderson</header>
+        <p>Website was done through Gatsby and Leaflet.</p>
+        <p>Thank you to Colby Fayock for creating a tutorial on creating a guide.</p>
+        <a href="https://github.com/joshhmann/Covid-19-tracker"> Link to Github page</a>
       </Container>
     </Layout>
   );
