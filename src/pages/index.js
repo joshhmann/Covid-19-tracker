@@ -27,7 +27,7 @@ const IndexPage = () => {
     try {
       response = await axios.get( 'https://corona.lmao.ninja/countries' );
     } catch ( e ) {
-      console.log( 'Failed to fetch countries: ${e.message}', e );
+      console.log( `Failed to fetch countries: ${e.message}`, e );
       return;
     }
 
