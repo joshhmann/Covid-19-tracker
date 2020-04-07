@@ -14,7 +14,7 @@ const SecondPage = () => {
         <h1>About Me</h1>
         <header>Joshua Anderson</header>
         <p>Website was done through Gatsby and Leaflet.</p>
-        <p>Thank you to Colby Fayock for creating a tutorial on creating a guide.</p>
+        <p>Thank you to Colby Fayock for creating a tutorial :D</p>
         <a href="https://github.com/joshhmann/Covid-19-tracker"> Link to Github page</a>
       </Container>
     </Layout>
